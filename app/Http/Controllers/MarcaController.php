@@ -28,7 +28,7 @@ class MarcaController extends Controller
         return redirect()->route('marcas.index')
             ->with('successMsg', 'Marca creada exitosamente.');
 
-        
+
         /*
         try {
             $validated = $request->validate([
@@ -37,25 +37,25 @@ class MarcaController extends Controller
                 'estado' => 'required|boolean'
             ]);
 
-            
+
 
             // Crear la marca con los datos validados
             $marca = Marca::create($validated);
 
             return redirect()->route('marcas.index')
                 ->with('successMsg', 'Marca creada exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
-                
+
         } catch (QueryException $e) {
             Log::error('Error al crear la marca: ' . $e->getMessage());
             return redirect()->back()
                 ->with('error', 'Error al crear la marca en la base de datos.')
                 ->withInput();
-                
+
         } catch (\Exception $e) {
             Log::error('Error inesperado al crear la marca: ' . $e->getMessage());
             return redirect()->back()
@@ -72,12 +72,17 @@ class MarcaController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        return view('marcas.edit', compact('marca'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        $marca->update($request->all());
+
+        return redirect()->route('marcas.index')
+            ->with('successMsg', 'Marca actualizada exitosamente.');
     }
 
     public function destroy($id)
@@ -85,27 +90,27 @@ class MarcaController extends Controller
         try {
             $marca = Marca::findOrFail($id);
             $marca->delete();
-            
+
             return redirect()->route('marcas.index')
                 ->with('successMsg', 'Marca eliminada exitosamente.');
-                
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             Log::error('Marca no encontrada: ' . $e->getMessage());
             return redirect()->route('marcas.index')
                 ->with('error', 'La marca no fue encontrada.');
-                
+
         } catch (QueryException $e) {
             Log::error('Error al eliminar la marca: ' . $e->getMessage());
             return redirect()->route('marcas.index')
                 ->with('error', 'No se puede eliminar la marca porque tiene registros relacionados.');
-                
+
         } catch (\Exception $e) {
             Log::error('Error inesperado al eliminar la marca: ' . $e->getMessage());
             return redirect()->route('marcas.index')
                 ->with('error', 'Error inesperado al eliminar la marca.');
         }
     }
-    
+
     public function cambioEstado($id)
     {
         try {
@@ -123,6 +128,25 @@ class MarcaController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al cambiar el estado de la marca.'
+            ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $marca = Marca::findOrFail($id);
+            $marca->estado = $request->estado;
+            $marca->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado actualizado correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado'
             ], 500);
         }
     }

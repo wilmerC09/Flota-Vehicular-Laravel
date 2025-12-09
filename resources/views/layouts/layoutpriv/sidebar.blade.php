@@ -1,147 +1,148 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar elevation-4" style="overflow-x: hidden;">
+<aside class="main-sidebar elevation-0" style="background: #ffffff; border-right: 1px solid #e5e7eb;">
     <!-- Brand Logo -->
-    <a href="{{ route('home') }}" class="brand-link text-center" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.2rem 0.5rem;">
-        <img src="{{ asset('backend/dist/img/escudo.png')}}" alt="Logo" class="brand-image elevation-3" style="opacity: 1; width: 50px; height: 50px; max-height: 50px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);">
-        <span class="brand-text" style="display: block; margin-top: 8px; font-weight: 700; font-size: 1.1rem; color: #fff;">Mobi UFPSO</span>
-        <small style="display: block; color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-top: 2px;">Sistema de Flota</small>
+    <a href="{{ route('home') }}" class="brand-link-modern text-center">
+        <div class="brand-logo-circle">
+            <img src="{{ asset('backend/dist/img/escudo.png')}}" alt="Logo">
+        </div>
+        <span class="brand-text-modern">Mobi UFPSO</span>
+        <small class="brand-subtitle">Sistema de Flota</small>
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar" style="padding-top: 1rem;">
+    <div class="sidebar">
         <!-- SidebarSearch Form -->
-        <div class="form-inline" style="margin-bottom: 1.5rem; padding: 0 1rem;">
-            <div class="input-group sidebar-search-modern" data-widget="sidebar-search">
-                <input class="form-control" type="search" placeholder="Buscar..." aria-label="Search" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 25px; padding: 0.5rem 1rem; font-size: 0.9rem;">
-                <div class="input-group-append" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10;">
-                    <button class="btn" style="background: transparent; border: none; color: rgba(255,255,255,0.6); padding: 0;">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
+        <div class="sidebar-search-wrapper">
+            <div class="input-group">
+                <span class="search-icon">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
             </div>
         </div>
 
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                
-                <!-- Charts Section -->
-                <li class="nav-item menu-section {{ Request::is('charts*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link nav-link-modern {{ Request::is('charts*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Gráficos
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
+        <nav class="mt-3">
+            <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a href="{{route('home')}}"
+                        class="nav-link-clean {{ Request::is('home') || Request::is('/') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-home"></i>
+                        <span>Dashboard</span>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link nav-link-sub {{ Request::is('charts/chartjs') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>ChartJS</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link nav-link-sub {{ Request::is('charts/flot') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Flot</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
-                <!-- Divider -->
-                <li class="nav-header" style="color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 1rem 1rem 0.5rem; margin-top: 0.5rem;">
-                    Gestión Principal
-                </li>
-                
+                <!-- GESTIÓN PRINCIPAL -->
+                <li class="nav-header-clean">GESTIÓN PRINCIPAL</li>
+
                 <!-- Conductores -->
                 <li class="nav-item">
-                    <a href="{{route('conductores.index')}}" class="nav-link nav-link-modern {{ Request::is('conductores*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Conductores</p>
+                    <a href="{{route('conductores.index')}}"
+                        class="nav-link-clean {{ Request::is('conductores*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-user-tie"></i>
+                        <span>Conductores</span>
                     </a>
                 </li>
 
                 <!-- Contratos -->
                 <li class="nav-item">
-                    <a href="{{route('contratos.index')}}" class="nav-link nav-link-modern {{ Request::is('contratos*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-file-contract"></i>
-                        <p>Contratos</p>
+                    <a href="{{route('contratos.index')}}"
+                        class="nav-link-clean {{ Request::is('contratos*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-file-contract"></i>
+                        <span>Contratos</span>
                     </a>
                 </li>
 
                 <!-- Empresas -->
                 <li class="nav-item">
-                    <a href="{{route('empresas.index')}}" class="nav-link nav-link-modern {{ Request::is('empresas*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-building"></i>
-                        <p>Empresas</p>
+                    <a href="{{route('empresas.index')}}"
+                        class="nav-link-clean {{ Request::is('empresas*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-building"></i>
+                        <span>Empresas</span>
                     </a>
                 </li>
 
                 <!-- Licencias -->
                 <li class="nav-item">
-                    <a href="{{route('licencias.index')}}" class="nav-link nav-link-modern {{ Request::is('licencias*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-id-card"></i>
-                        <p>Licencias</p>
+                    <a href="{{route('licencias.index')}}"
+                        class="nav-link-clean {{ Request::is('licencias*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-id-card"></i>
+                        <span>Licencias</span>
                     </a>
                 </li>
 
-                <!-- Divider -->
-                <li class="nav-header" style="color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 1rem 1rem 0.5rem; margin-top: 0.5rem;">
-                    Vehículos
-                </li>
+                <!-- VEHÍCULOS -->
+                <li class="nav-header-clean">VEHÍCULOS</li>
 
                 <!-- Marcas -->
                 <li class="nav-item">
-                    <a href="{{route('marcas.index')}}" class="nav-link nav-link-modern {{ Request::is('marcas*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tag"></i>
-                        <p>Marcas</p>
+                    <a href="{{route('marcas.index')}}"
+                        class="nav-link-clean {{ Request::is('marcas*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-tag"></i>
+                        <span>Marcas</span>
                     </a>
                 </li>
 
                 <!-- Tipo Vehículos -->
                 <li class="nav-item">
-                    <a href="{{route('tipo_vehiculos.index')}}" class="nav-link nav-link-modern {{ Request::is('tipo_vehiculos*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-list-alt"></i>
-                        <p>Tipo Vehículos</p>
+                    <a href="{{route('tipo_vehiculos.index')}}"
+                        class="nav-link-clean {{ Request::is('tipo_vehiculos*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-list-alt"></i>
+                        <span>Tipo Vehículos</span>
                     </a>
                 </li>
 
                 <!-- Vehículos -->
                 <li class="nav-item">
-                    <a href="{{route('vehiculos.index')}}" class="nav-link nav-link-modern {{ Request::is('vehiculos*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-bus"></i>
-                        <p>Vehículos</p>
+                    <a href="{{route('vehiculos.index')}}"
+                        class="nav-link-clean {{ Request::is('vehiculos*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-car"></i>
+                        <span>Vehículos</span>
+                        <span class="badge-new">New</span>
                     </a>
                 </li>
 
-                <!-- Divider -->
-                <li class="nav-header" style="color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 1rem 1rem 0.5rem; margin-top: 0.5rem;">
-                    Operaciones
-                </li>
+                <!-- OPERACIONES -->
+                <li class="nav-header-clean">OPERACIONES</li>
 
-                <!-- Recarga Combustible -->
+                <!-- Combustible -->
                 <li class="nav-item">
-                    <a href="{{route('recarga_combustibles.index')}}" class="nav-link nav-link-modern {{ Request::is('recarga_combustibles*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-gas-pump"></i>
-                        <p>Combustible</p>
+                    <a href="{{route('recarga_combustibles.index')}}"
+                        class="nav-link-clean {{ Request::is('recarga_combustibles*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-gas-pump"></i>
+                        <span>Combustible</span>
                     </a>
                 </li>
 
                 <!-- Rutas -->
                 <li class="nav-item">
-                    <a href="{{route('rutas.index')}}" class="nav-link nav-link-modern {{ Request::is('rutas*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-route"></i>
-                        <p>Rutas</p>
+                    <a href="{{route('rutas.index')}}"
+                        class="nav-link-clean {{ Request::is('rutas*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-route"></i>
+                        <span>Rutas</span>
                     </a>
                 </li>
 
                 <!-- Viajes -->
                 <li class="nav-item">
-                    <a href="{{route('viajes.index')}}" class="nav-link nav-link-modern {{ Request::is('viajes*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-map-marked-alt"></i>
-                        <p>Viajes</p>
+                    <a href="{{route('viajes.index')}}"
+                        class="nav-link-clean {{ Request::is('viajes*') ? 'active' : '' }}">
+                        <i class="nav-icon-clean fas fa-map-marked-alt"></i>
+                        <span>Viajes</span>
+                    </a>
+                </li>
+
+                <!-- CONFIGURACIÓN -->
+                <li class="nav-header-clean">CONFIGURACIÓN</li>
+
+                <!-- Settings -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link-clean">
+                        <i class="nav-icon-clean fas fa-cog"></i>
+                        <span>Settings</span>
+                        <i class="fas fa-chevron-right nav-arrow"></i>
                     </a>
                 </li>
 
@@ -152,118 +153,177 @@
     </div>
 </aside>
 
-<!-- Custom Sidebar Styles -->
+<!-- Modern Clean Sidebar Styles -->
 <style>
-    /* Sidebar Background */
+    /* Sidebar Main */
     .main-sidebar {
-        background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%) !important;
-        box-shadow: 2px 0 20px rgba(0,0,0,0.1) !important;
-    }
-
-    /* Brand Link Hover */
-    .brand-link:hover {
-        background: rgba(255,255,255,0.05) !important;
         transition: all 0.3s ease;
     }
 
-    /* Modern Nav Links */
-    .nav-link-modern {
-        border-radius: 10px !important;
-        margin: 0.25rem 0.75rem !important;
-        padding: 0.75rem 1rem !important;
-        transition: all 0.3s ease !important;
-        color: rgba(255,255,255,0.8) !important;
-        position: relative;
-        overflow: hidden;
+    /* Brand Link Modern */
+    .brand-link-modern {
+        display: block;
+        padding: 1.5rem 1rem;
+        text-decoration: none;
+        border-bottom: 1px solid #f3f4f6;
+        transition: background 0.2s ease;
     }
 
-    .nav-link-modern::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
+    .brand-link-modern:hover {
+        background: #f9fafb;
     }
 
-    .nav-link-modern:hover {
-        background: rgba(102, 126, 234, 0.15) !important;
-        color: #fff !important;
-        transform: translateX(5px);
+    .brand-logo-circle {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 10px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
-    .nav-link-modern:hover::before {
-        transform: scaleY(1);
-    }
-
-    .nav-link-modern.active {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%) !important;
-        color: #fff !important;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-    }
-
-    .nav-link-modern.active::before {
-        transform: scaleY(1);
-    }
-
-    /* Icons */
-    .nav-link-modern i.nav-icon {
-        font-size: 1rem;
+    .brand-logo-circle img {
         width: 30px;
-        text-align: center;
-        margin-right: 0.5rem;
+        height: 30px;
+        border-radius: 8px;
     }
 
-    /* Sub Menu Links */
-    .nav-link-sub {
-        padding-left: 3rem !important;
-        color: rgba(255,255,255,0.7) !important;
-        font-size: 0.9rem;
-        border-radius: 8px !important;
-        margin: 0.2rem 0.75rem !important;
-        transition: all 0.2s ease !important;
+    .brand-text-modern {
+        display: block;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #1f2937;
+        margin-bottom: 2px;
     }
 
-    .nav-link-sub:hover {
-        background: rgba(255,255,255,0.1) !important;
-        color: #fff !important;
-        padding-left: 3.3rem !important;
+    .brand-subtitle {
+        display: block;
+        font-size: 0.75rem;
+        color: #9ca3af;
     }
 
-    .nav-link-sub i {
-        font-size: 0.5rem;
-        margin-right: 0.75rem;
+    /* Search Wrapper */
+    .sidebar-search-wrapper {
+        padding: 1rem 1rem 0.5rem;
     }
 
-    /* TreeView Arrow */
-    .nav-link-modern .right {
-        transition: transform 0.3s ease;
+    .sidebar-search-wrapper .input-group {
+        position: relative;
     }
 
-    .nav-item.menu-open > .nav-link-modern .right {
-        transform: rotate(-90deg);
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        z-index: 10;
+        font-size: 14px;
     }
 
-    /* Search Input */
-    .sidebar-search-modern input::placeholder {
-        color: rgba(255,255,255,0.5);
+    .search-input {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+        font-size: 14px;
+        color: #6b7280;
+        transition: all 0.2s ease;
     }
 
-    .sidebar-search-modern input:focus {
-        background: rgba(255,255,255,0.15) !important;
-        border-color: rgba(102, 126, 234, 0.5) !important;
-        box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+    .search-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .search-input:focus {
+        background: #ffffff;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         outline: none;
     }
 
     /* Nav Headers */
-    .nav-header {
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        padding-bottom: 0.5rem !important;
+    .nav-header-clean {
+        padding: 1rem 1rem 0.5rem;
+        font-size: 11px;
+        font-weight: 600;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
+    }
+
+    /* Nav Items */
+    .nav-sidebar .nav-item {
+        margin-bottom: 2px;
+    }
+
+    /* Nav Links Clean */
+    .nav-link-clean {
+        display: flex;
+        align-items: center;
+        padding: 0.65rem 1rem;
+        color: #4b5563;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+        margin: 0 0.75rem;
+        transition: all 0.2s ease;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .nav-link-clean:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+    }
+
+    .nav-link-clean.active {
+        background: #d1fae5;
+        color: #047857;
+    }
+
+    .nav-link-clean.active .nav-icon-clean {
+        color: #10b981;
+    }
+
+    /* Nav Icons */
+    .nav-icon-clean {
+        font-size: 18px;
+        width: 20px;
+        margin-right: 12px;
+        color: #6b7280;
+        transition: color 0.2s ease;
+    }
+
+    .nav-link-clean:hover .nav-icon-clean {
+        color: #374151;
+    }
+
+    /* Nav Text */
+    .nav-link-clean span {
+        flex: 1;
+    }
+
+    /* Nav Arrow */
+    .nav-arrow {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-left: auto;
+    }
+
+    /* Badge New */
+    .badge-new {
+        background: #10b981;
+        color: white;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-left: auto;
     }
 
     /* Scrollbar */
@@ -272,27 +332,27 @@
     }
 
     .sidebar::-webkit-scrollbar-track {
-        background: rgba(255,255,255,0.05);
+        background: transparent;
     }
 
     .sidebar::-webkit-scrollbar-thumb {
-        background: rgba(102, 126, 234, 0.5);
+        background: #d1d5db;
         border-radius: 10px;
     }
 
     .sidebar::-webkit-scrollbar-thumb:hover {
-        background: rgba(102, 126, 234, 0.7);
+        background: #9ca3af;
     }
 
-    /* Responsive adjustments */
+    /* Responsive */
     @media (max-width: 768px) {
-        .brand-text {
-            font-size: 0.95rem !important;
-        }
-        
-        .nav-link-modern {
+        .brand-text-modern {
             font-size: 0.9rem;
-            padding: 0.6rem 0.8rem !important;
+        }
+
+        .nav-link-clean {
+            font-size: 13px;
+            padding: 0.6rem 0.8rem;
         }
     }
 </style>

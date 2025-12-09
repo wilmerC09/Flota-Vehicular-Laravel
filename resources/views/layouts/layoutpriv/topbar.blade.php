@@ -71,22 +71,28 @@
         <!-- Dropdown de perfil de usuario mejorado -->
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown">
-                <img src="{{ asset('backend/dist/img/yo.jpg') }}" class="user-image-modern img-circle elevation-2"
-                    alt="Usuario">
+                <div class="user-avatar-icon"
+                    style="width: 36px; height: 36px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user" style="color: white; font-size: 16px;"></i>
+                </div>
                 <span class="d-none d-md-inline ml-2"
-                    style="font-weight: 500;">{{ Auth::user()->name ?? 'Usuario' }}</span>
-                <i class="fas fa-chevron-down ml-2" style="font-size: 0.8rem;"></i>
+                    style="font-weight: 500; color: #2d3748;">{{ Auth::user()->name ?? 'Usuario' }}</span>
+                <i class="fas fa-chevron-down ml-2" style="font-size: 0.8rem; color: #6b7280;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right modern-dropdown">
                 <!-- User header -->
-                <li class="user-header bg-primary">
-                    <img src="{{ asset('backend/dist/img/yo.jpg') }}" class="img-circle elevation-3" alt="Usuario">
-                    <p class="mb-1">
+                <li class="user-header-modern" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <div class="user-avatar-large"
+                        style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 3px solid rgba(255, 255, 255, 0.4);">
+                        <i class="fas fa-user" style="color: white; font-size: 32px;"></i>
+                    </div>
+                    <p class="mb-1" style="color: white; font-weight: 600; font-size: 17px;">
                         {{ Auth::user()->name ?? 'Usuario Invitado' }}
                     </p>
-                    <small class="text-muted">{{ Auth::user()->email ?? 'usuario@ejemplo.com' }}</small>
+                    <small class="text-white" style="opacity: 0.9;">{{ Auth::user()->email ?? 'usuario@ejemplo.com'
+                        }}</small>
                     @auth
-                        <small class="d-block mt-1" style="opacity: 0.8;">
+                        <small class="d-block mt-1 text-white" style="opacity: 0.8;">
                             <i class="fas fa-calendar-alt mr-1"></i>
                             Miembro desde {{ Auth::user()->created_at?->format('M Y') }}
                         </small>
@@ -97,7 +103,8 @@
                 <li class="user-body-modern">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-outline-primary btn-sm btn-block mb-2">
+                            <a href="#" class="btn btn-sm btn-block mb-2"
+                                style="background: #d1fae5; color: #047857; border: 1px solid #10b981; font-weight: 500;">
                                 <i class="fas fa-user mr-2"></i>Mi Perfil
                             </a>
                         </div>
@@ -145,21 +152,20 @@
         background-color: #f8f9fa;
     }
 
-    /* Imagen de usuario mejorada */
-    .user-image-modern {
-        width: 32px;
-        height: 32px;
+    /* Imagen/Ícono de usuario mejorado */
+    .user-avatar-icon {
         transition: all 0.3s ease;
     }
 
-    .user-image-modern:hover {
+    .user-avatar-icon:hover {
         transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     /* Dropdown moderno */
     .modern-dropdown {
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         border: none;
         overflow: hidden;
         min-width: 300px;
@@ -167,35 +173,17 @@
 
     /* Header del dropdown de usuario */
     .user-header-modern {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 25px;
         text-align: center;
-        color: white;
     }
 
-    .user-header-modern img {
-        width: 80px;
-        height: 80px;
-        border: 3px solid rgba(255, 255, 255, 0.4);
-        margin-bottom: 12px;
+    .user-avatar-large {
         transition: all 0.3s ease;
     }
 
-    .user-header-modern img:hover {
-        border-color: rgba(255, 255, 255, 0.8);
+    .user-avatar-large:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
         transform: scale(1.05);
-    }
-
-    .user-header-modern p {
-        margin: 0;
-        font-size: 17px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-    }
-
-    .user-header-modern small {
-        font-size: 13px;
-        opacity: 0.95;
     }
 
     /* Body del dropdown */

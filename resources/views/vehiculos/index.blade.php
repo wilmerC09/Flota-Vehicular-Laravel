@@ -1,107 +1,136 @@
 @extends('layouts.app')
 
-@section('title','Listado De Vehículos')
+@section('title', 'Vehículos')
 
 @section('content')
-
-<div class="content-wrapper pb-4">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="m-0"><i class="fas fa-car mr-2"></i>Vehículos</h1>
-                <a href="{{ route('vehiculos.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus mr-1"></i> Nuevo Vehículo
-                </a>
+    <div class="content-wrapper" style="background: #f8f9fa;">
+        <!-- Modern Header -->
+        <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Vehículos</h1>
+                        <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                            <a href="{{ route('home') }}" style="color: #6b7280; text-decoration: none;">Home</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <span>Vehículos</span>
+                        </nav>
+                    </div>
+                    <a href="{{ route('vehiculos.create') }}"
+                        style="background: #1f2937; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fas fa-plus"></i> Nuevo Vehículo
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="content">
-        <div class="container-fluid">
-            {{-- Mensajes de éxito y error --}}
-            @if(session('successMsg'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+        <section class="content" style="padding: 1.5rem 1rem;">
+            <div class="container-fluid">
+                {{-- Success/Error Messages --}}
+                @if(session('successMsg'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert"
+                        style="border-radius: 8px; border-left: 4px solid #10b981;">
+                        <i class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}
+                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    </div>
+                @endif
 
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white border-bottom">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="card-title font-weight-bold mb-0">
-                                    <i class="fas fa-list mr-2 text-primary"></i>Listado de Vehículos
-                                </h3>
-                                <div class="search-box" style="width: 300px;">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-white border-right-0">
-                                                <i class="fas fa-search text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" id="searchTable" class="form-control border-left-0" 
-                                               placeholder="Buscar vehículo...">
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                        style="border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    </div>
+                @endif
+
+                <!-- Modern Card -->
+                <div class="card" style="border: none; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <!-- Filters/Search Bar -->
+                    <div class="card-header"
+                        style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.5rem; border-radius: 12px 12px 0 0;">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            style="background: white; border-right: none; border-color: #d1d5db;">
+                                            <i class="fas fa-search" style="color: #9ca3af;"></i>
+                                        </span>
                                     </div>
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar..."
+                                        style="border-left: none; border-color: #d1d5db;">
+                                </div>
+                            </div>
+                            <div class="col-md-8 text-right">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: #d1d5db; color: #6b7280; border-radius: 6px 0 0 6px;">
+                                        <i class="fas fa-filter mr-1"></i> Más Filtros
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: #d1d5db; color: #6b7280;">
+                                        <i class="fas fa-tag mr-1"></i> Categoría <i class="fas fa-chevron-down ml-1"
+                                            style="font-size: 10px;"></i>
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: #d1d5db; color: #6b7280; border-radius: 0 6px 6px 0;">
+                                        <i class="fas fa-download mr-1"></i> Exportar <i class="fas fa-chevron-down ml-1"
+                                            style="font-size: 10px;"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table id="example1" class="table table-hover align-middle mb-0" style="width:100%">
-                                    <thead class="bg-light">
-                                        <tr>
-                                            <th class="text-center" style="width: 60px;">
-                                                <i class="fas fa-hashtag text-muted"></i> ID
-                                            </th>
-                                            <th class="text-center" style="width: 80px;">
-                                                <i class="fas fa-image text-muted"></i> Imagen
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-id-card text-muted"></i> Placa
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-copyright text-muted"></i> Marca
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-truck text-muted"></i> Tipo
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-car-side text-muted"></i> Modelo
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fas fa-calendar-alt text-muted"></i> Año
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-palette text-muted"></i> Color
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fas fa-tachometer-alt text-muted"></i> Kilometraje
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-user text-muted"></i> Registrado por
-                                            </th>
-                                            <th class="text-center" style="width: 120px;">
-                                                <i class="fas fa-toggle-on text-muted"></i> Estado
-                                            </th>
-                                            <th class="text-center" style="width: 140px;">
-                                                <i class="fas fa-cog text-muted"></i> Acciones
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
+                    </div>
+
+                    <!-- Table -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" style="border-collapse: separate; border-spacing: 0;">
+                                <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                                    <tr>
+                                        <th style="padding: 12px 16px; width: 40px; border-bottom: 1px solid #e5e7eb;">
+                                            <input type="checkbox" id="selectAll" style="cursor: pointer;">
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-hashtag text-muted mr-1"></i>ID</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-image text-muted mr-1"></i>Imagen</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-id-card text-muted mr-1"></i>Placa</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-copyright text-muted mr-1"></i>Marca</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-truck text-muted mr-1"></i>Tipo</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-car-side text-muted mr-1"></i>Modelo</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-calendar-alt text-muted mr-1"></i>Año</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-palette text-muted mr-1"></i>Color</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-tachometer-alt text-muted mr-1"></i>Kilometraje</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-user text-muted mr-1"></i>Registrado por</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                                            Estado</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                                            Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
                                         // Mapeo de colores en español a código hexadecimal
                                         $coloresMap = [
                                             'rojo' => '#DC3545',
@@ -118,183 +147,246 @@
                                             'rosa' => '#E83E8C',
                                             'café' => '#8B4513',
                                             'beige' => '#F5F5DC',
-                                            'verde claro' => '#90EE90',
-                                            'azul claro' => '#87CEEB',
-                                            'gris oscuro' => '#4B4B4B',
-                                            'rojo oscuro' => '#8B0000',
-                                            'azul oscuro' => '#00008B',
-                                            'verde oscuro' => '#006400',
                                         ];
-                                        @endphp
-                                        
-                                        @foreach($vehiculos as $vehiculo)
+                                    @endphp
+
+                                    @forelse($vehiculos as $vehiculo)
                                         @php
-                                            // Obtener el color en minúsculas para buscar en el mapa
                                             $colorNombre = strtolower(trim($vehiculo->color));
                                             $colorHex = $coloresMap[$colorNombre] ?? '#6C757D';
-                                            
-                                            // Si el color ya viene en formato hexadecimal (#), usarlo directamente
                                             if (str_starts_with($vehiculo->color, '#')) {
                                                 $colorHex = $vehiculo->color;
                                             }
                                         @endphp
-                                        <tr>
-                                            <td class="text-center font-weight-bold text-muted">
-                                                {{ $vehiculo->id }}
+                                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                                            <td style="padding: 12px 16px;">
+                                                <input type="checkbox" class="row-checkbox" value="{{ $vehiculo->id }}"
+                                                    style="cursor: pointer;">
                                             </td>
-                                            <td class="text-center">
-                                                @if($vehiculo->imagen && file_exists(public_path('uploads/vehiculos/'.$vehiculo->imagen)))
-                                                    <img src="{{ asset('uploads/vehiculos/'.$vehiculo->imagen) }}" 
-                                                         alt="Imagen de {{ $vehiculo->placa }}" 
-                                                         class="img-thumbnail" 
-                                                         style="width: 60px; height: 60px; object-fit: cover; cursor: pointer;"
-                                                         data-toggle="modal" 
-                                                         data-target="#imageModal{{ $vehiculo->id }}">
+                                            <td style="padding: 12px 16px; color: #6b7280; font-weight: 600;">
+                                                {{ $vehiculo->id }}</td>
+                                            <td style="padding: 12px 16px;">
+                                                @if($vehiculo->imagen && file_exists(public_path('uploads/vehiculos/' . $vehiculo->imagen)))
+                                                    <img src="{{ asset('uploads/vehiculos/' . $vehiculo->imagen) }}"
+                                                        alt="{{ $vehiculo->placa }}"
+                                                        style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; cursor: pointer;"
+                                                        onclick="window.open(this.src)">
                                                 @else
-                                                    <div class="bg-light d-flex align-items-center justify-content-center" 
-                                                         style="width: 60px; height: 60px; border-radius: 4px;">
-                                                        <i class="fas fa-car text-muted"></i>
+                                                    <div
+                                                        style="width: 50px; height: 50px; border-radius: 8px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fas fa-car" style="color: white; font-size: 20px;"></i>
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td>
-                                                <span class="font-weight-bold text-dark">{{ $vehiculo->placa }}</span>
-                                            </td>
-                                            <td>
-                                                <span class="text-secondary">{{ $vehiculo->marca->nombre ?? 'N/A' }}</span>
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-primary px-2 py-1">
-                                                    {{ $vehiculo->tipoVehiculo->nombre ?? 'N/A' }}
+                                            <td style="padding: 12px 16px; font-weight: 600; color: #1f2937;">
+                                                {{ $vehiculo->placa }}</td>
+                                            <td style="padding: 12px 16px; color: #4b5563;">
+                                                {{ $vehiculo->marca->nombre ?? 'N/A' }}</td>
+                                            <td style="padding: 12px 16px;">
+                                                <span
+                                                    style="background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                                                    {{ $vehiculo->tipo_vehiculo->nombre ?? 'N/A' }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                <span class="text-secondary">{{ $vehiculo->modelo }}</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="badge badge-info px-2 py-1">
+                                            <td style="padding: 12px 16px; color: #4b5563;">{{ $vehiculo->modelo }}</td>
+                                            <td style="padding: 12px 16px;">
+                                                <span
+                                                    style="background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
                                                     {{ $vehiculo->año }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="color-circle mr-2" 
-                                                          style="display: inline-block; 
-                                                                 width: 20px; 
-                                                                 height: 20px; 
-                                                                 border-radius: 50%; 
-                                                                 background-color: {{ $colorHex }};
-                                                                 border: 2px solid #dee2e6;
-                                                                 box-shadow: 0 1px 3px rgba(0,0,0,0.12);"
-                                                          title="{{ ucfirst($vehiculo->color) }}">
-                                                    </span>
-                                                    <span class="text-secondary">{{ ucfirst($vehiculo->color) }}</span>
-                                                </div>
+                                            <td style="padding: 12px 16px;">
+                                                <i class="fas fa-circle mr-1" style="color: {{ $colorHex }};"></i>
+                                                {{ $vehiculo->color }}
                                             </td>
-                                            <td class="text-center">
-                                                <span class="badge badge-warning px-2 py-1">
+                                            <td style="padding: 12px 16px;">
+                                                <span
+                                                    style="background: #fef3c7; color: #92400e; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
                                                     {{ number_format($vehiculo->kilometraje) }} km
                                                 </span>
                                             </td>
-                                            <td>
-                                                <span class="text-secondary">{{ $vehiculo->registrado_por ?? 'Sistema' }}</span>
+                                            <td style="padding: 12px 16px; color: #4b5563;">{{ $vehiculo->registrado_por }}</td>
+                                            <td style="padding: 12px 16px; text-align: center;">
+                                                <span class="status-badge" data-id="{{ $vehiculo->id }}" data-model="vehiculos"
+                                                    data-status="{{ $vehiculo->estado }}"
+                                                    style="background: {{ $vehiculo->estado ? '#d1fae5' : '#fee2e2' }}; color: {{ $vehiculo->estado ? '#047857' : '#dc2626' }}; padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                                                    onclick="toggleStatus(this)">
+                                                    {{ $vehiculo->estado ? 'Activo' : 'Inactivo' }}
+                                                </span>
                                             </td>
-                                            <td class="text-center">
-                                                @if($vehiculo->estado)
-                                                    <span class="badge badge-success px-3 py-2" style="cursor: pointer;" title="Clic para cambiar estado">
-                                                        <i class="fas fa-check-circle mr-1"></i> Activo
-                                                    </span>
-                                                @else
-                                                    <span class="badge badge-danger px-3 py-2" style="cursor: pointer;" title="Clic para cambiar estado">
-                                                        <i class="fas fa-times-circle mr-1"></i> Inactivo
-                                                    </span>
-                                                @endif
-                                                <input data-type="vehiculos" data-id="{{ $vehiculo->id }}"
-                                                    class="toggle-class d-none" type="checkbox" 
-                                                    data-onstyle="success"
-                                                    data-offstyle="danger" data-toggle="toggle" 
-                                                    data-on="Activo"
-                                                    data-off="Inactivo" {{ $vehiculo->estado ? 'checked' : '' }}>
-                                            </td>
-                                            <td class="text-center">
+                                            <td style="padding: 12px 16px; text-align: center;">
                                                 <div class="btn-group" role="group">
-                                                    <a href="{{ route('vehiculos.edit', $vehiculo->id) }}"
-                                                        class="btn btn-sm btn-info" title="Editar">
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="window.location='{{ route('vehiculos.edit', $vehiculo->id) }}'"
+                                                        style="background: transparent; border: none; color: #6b7280; padding: 6px 8px;"
+                                                        title="Editar">
                                                         <i class="fas fa-edit"></i>
-                                                    </a>
-
-                                                    <form class="d-inline delete-form"
-                                                        action="{{ route('vehiculos.destroy', $vehiculo->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="confirmDelete({{ $vehiculo->id }})"
+                                                        style="background: transparent; border: none; color: #ef4444; padding: 6px 8px;"
+                                                        title="Eliminar">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </div>
+                                                <form id="delete-form-{{ $vehiculo->id }}"
+                                                    action="{{ route('vehiculos.destroy', $vehiculo->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                         </tr>
-                                        
-                                        {{-- Modal para ver imagen completa --}}
-                                        @if($vehiculo->imagen && file_exists(public_path('uploads/vehiculos/'.$vehiculo->imagen)))
-                                        <div class="modal fade" id="imageModal{{ $vehiculo->id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ $vehiculo->id }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="imageModalLabel{{ $vehiculo->id }}">
-                                                            Imagen del Vehículo - {{ $vehiculo->placa }}
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-center">
-                                                        <img src="{{ asset('uploads/vehiculos/'.$vehiculo->imagen) }}" 
-                                                             alt="Imagen de {{ $vehiculo->placa }}" 
-                                                             class="img-fluid" 
-                                                             style="max-height: 500px;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                    @empty
+                                        <tr>
+                                            <td colspan="13" class="text-center" style="padding: 40px; color: #9ca3af;">
+                                                <i class="fas fa-inbox"
+                                                    style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                                <p style="margin: 0; font-size: 16px;">No hay vehículos registrados</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
-                        {{-- Agregada sección de paginación en el footer de la card --}}
-                        <div class="card-footer bg-white border-top">
+                    </div>
+
+                    <!-- Pagination -->
+                    @if($vehiculos->hasPages())
+                        <div class="card-footer"
+                            style="background: white; border-top: 1px solid #e5e7eb; padding: 1rem 1.5rem; border-radius: 0 0 12px 12px;">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-muted">
-                                    Mostrando {{ $vehiculos->firstItem() ?? 0 }} a {{ $vehiculos->lastItem() ?? 0 }}
-                                    de {{ $vehiculos->total() }} registros
+                                <div style="color: #6b7280; font-size: 14px;">
+                                    Mostrando {{ $vehiculos->firstItem() }} a {{ $vehiculos->lastItem() }} de
+                                    {{ $vehiculos->total() }} vehículos
                                 </div>
                                 <div>
                                     {{ $vehiculos->links('pagination::bootstrap-4') }}
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                const searchTerm = this.value.toLowerCase();
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            document.getElementById('selectAll')?.addEventListener('change', function () {
+                document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás revertir esta acción",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
+                });
+            }
+
+            function toggleStatus(element) {
+                const id = element.dataset.id;
+                const model = element.dataset.model;
+                const currentStatus = element.dataset.status == 1;
+                const newStatus = currentStatus ? 0 : 1;
+
+                Swal.fire({
+                    title: '¿Cambiar estado?',
+                    text: `¿Desea cambiar el estado a ${newStatus ? 'Activo' : 'Inactivo'}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10b981',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, cambiar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/${model}/${id}/toggle-status`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({ estado: newStatus })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    element.dataset.status = newStatus;
+                                    element.style.background = newStatus ? '#d1fae5' : '#fee2e2';
+                                    element.style.color = newStatus ? '#047857' : '#dc2626';
+                                    element.textContent = newStatus ? 'Activo' : 'Inactivo';
+
+                                    Swal.fire({
+                                        title: '¡Actualizado!',
+                                        text: 'El estado ha sido cambiado exitosamente',
+                                        icon: 'success',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    Swal.fire('Error', 'No se pudo actualizar el estado', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error', 'Ocurrió un error al actualizar el estado', 'error');
+                            });
+                    }
+                });
+            }
+
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    this.style.background = '#f3f4f6';
+                    this.style.borderRadius = '6px';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    this.style.background = 'transparent';
+                });
+            });
+
+            document.querySelectorAll('.status-badge').forEach(badge => {
+                badge.addEventListener('mouseenter', function () {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                });
+                badge.addEventListener('mouseleave', function () {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        </script>
+    @endpush
+
+    <style>
+        .table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        a[href*="create"]:hover {
+            background: #111827 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
 @endsection
-
-
-@push('styles')
-{{-- Agregando estilos personalizados de vehiculos --}}
-<link rel="stylesheet" href="{{ asset('backend/dist/css/vehiculos.css') }}">
-@endpush
-
-{{-- Scripts en el orden correcto --}}
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="{{ asset('backend/dist/js/vehiculos.js') }}"></script>
-<script src="{{ asset('backend/dist/js/statuschange.js') }}"></script>
-<script src="{{ asset('backend/dist/js/delete-confirm.js') }}"></script>
-@endpush

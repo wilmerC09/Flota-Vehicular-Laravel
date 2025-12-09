@@ -28,7 +28,7 @@ class EmpresaController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {   
+    {
         $empresa = Empresa::create($request->All());
         return redirect()->route('empresas.index')
             ->with('successMsg', 'Empresa creada exitosamente.');
@@ -48,7 +48,7 @@ class EmpresaController extends Controller
 
             return redirect()->route('empresas.index')
                 ->with('successMsg', 'Empresa creada exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
@@ -69,12 +69,10 @@ class EmpresaController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $empresa = Empresa::findOrFail($id);
+        return view('empresas.edit', compact('empresa'));
     }
 
     /**
@@ -82,7 +80,11 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $empresa = Empresa::findOrFail($id);
+        $empresa->update($request->all());
+
+        return redirect()->route('empresas.index')
+            ->with('successMsg', 'Empresa actualizada exitosamente.');
     }
 
     /**
@@ -117,6 +119,25 @@ class EmpresaController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al cambiar el estado de la empresa.'
+            ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $empresa = Empresa::findOrFail($id);
+            $empresa->estado = $request->estado;
+            $empresa->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado actualizado correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado'
             ], 500);
         }
     }

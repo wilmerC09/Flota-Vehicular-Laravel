@@ -24,7 +24,7 @@ class ConductorController extends Controller
     public function create()
     {
         return view('conductores.create');
-        
+
     }
 
     /**
@@ -52,18 +52,18 @@ class ConductorController extends Controller
 
             return redirect()->route('conductores.index')
                 ->with('successMsg', 'Conductor creado exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
-                
+
         } catch (QueryException $e) {
             Log::error('Error al crear el conductor: ' . $e->getMessage());
             return redirect()->back()
                 ->with('error', 'Error al crear el conductor en la base de datos.')
                 ->withInput();
-                
+
         } catch (\Exception $e) {
             Log::error('Error inesperado al crear el conductor: ' . $e->getMessage());
             return redirect()->back()
@@ -81,12 +81,10 @@ class ConductorController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $conductor = Conductor::findOrFail($id);
+        return view('conductores.edit', compact('conductor'));
     }
 
     /**
@@ -94,7 +92,11 @@ class ConductorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $conductor = Conductor::findOrFail($id);
+        $conductor->update($request->all());
+
+        return redirect()->route('conductores.index')
+            ->with('successMsg', 'Conductor actualizado exitosamente.');
     }
 
     /**
@@ -105,20 +107,20 @@ class ConductorController extends Controller
         try {
             $conductor = conductor::findOrFail($id);
             $conductor->delete();
-            
+
             return redirect()->route('conductores.index')
                 ->with('successMsg', 'conductor eliminado exitosamente.');
-                
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             Log::error('conductor no encontrado: ' . $e->getMessage());
             return redirect()->route('conductores.index')
                 ->with('error', 'La conductor no fue encontrado.');
-                
+
         } catch (QueryException $e) {
             Log::error('Error al eliminar la conductor: ' . $e->getMessage());
             return redirect()->route('conductores.index')
                 ->with('error', 'No se puede eliminar la conductor porque tiene registros relacionados.');
-                
+
         } catch (\Exception $e) {
             Log::error('Error inesperado al eliminar la conductor: ' . $e->getMessage());
             return redirect()->route('conductores.index')
@@ -141,6 +143,25 @@ class ConductorController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al actualizar el estado: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $conductor = Conductor::findOrFail($id);
+            $conductor->estado = $request->estado;
+            $conductor->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado actualizado correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado'
             ], 500);
         }
     }

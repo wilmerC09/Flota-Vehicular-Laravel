@@ -31,7 +31,7 @@ Auth::routes();
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function () { 
+Route::middleware(['auth'])->group(function () {
 
     // Dashboard / Home
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     // Conductores
     Route::resource('conductores', ConductorController::class);
     Route::post('conductores/cambio-estado/{conductor}', [ConductorController::class, 'cambioEstado'])
-    ->name('conductores.cambioEstado');
+        ->name('conductores.cambioEstado');
 
     // Contratos
     Route::resource('contratos', ContratoController::class);
@@ -78,6 +78,18 @@ Route::middleware(['auth'])->group(function () {
 
     // Vehículos
     Route::resource('vehiculos', VehiculoController::class);
+    Route::post('vehiculos/{id}/toggle-status', [VehiculoController::class, 'toggleStatus']);
+
+    // Toggle status routes for all modules
+    Route::post('marcas/{id}/toggle-status', [MarcaController::class, 'toggleStatus']);
+    Route::post('conductores/{id}/toggle-status', [ConductorController::class, 'toggleStatus']);
+    Route::post('contratos/{id}/toggle-status', [ContratoController::class, 'toggleStatus']);
+    Route::post('empresas/{id}/toggle-status', [EmpresaController::class, 'toggleStatus']);
+    Route::post('licencias/{id}/toggle-status', [LicenciaController::class, 'toggleStatus']);
+    Route::post('tipo_vehiculos/{id}/toggle-status', [Tipo_VehiculoController::class, 'toggleStatus']);
+    Route::post('recarga_combustibles/{id}/toggle-status', [Recarga_CombustibleController::class, 'toggleStatus']);
+    Route::post('rutas/{id}/toggle-status', [RutaController::class, 'toggleStatus']);
+    Route::post('viajes/{id}/toggle-status', [ViajeController::class, 'toggleStatus']);
     Route::post('vehiculos/{vehiculo}/cambio-estado', [VehiculoController::class, 'cambioEstado'])
         ->name('vehiculos.cambio-estado');
 

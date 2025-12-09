@@ -52,12 +52,12 @@ class LicenciaController extends Controller
 
             return redirect()->route('licencias.index')
                 ->with('successMsg', 'Licencia creada exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
-                
+
         } catch (\Illuminate\Database\QueryException $e) {
             \Log::error('Error al crear la licencia: ' . $e->getMessage());
             return redirect()->back()
@@ -74,12 +74,11 @@ class LicenciaController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $licencia = Licencia::findOrFail($id);
+        $conductores = Conductor::all();
+        return view('licencias.edit', compact('licencia', 'conductores'));
     }
 
     /**
@@ -87,7 +86,11 @@ class LicenciaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $licencia = Licencia::findOrFail($id);
+        $licencia->update($request->all());
+
+        return redirect()->route('licencias.index')
+            ->with('successMsg', 'Licencia actualizada exitosamente.');
     }
 
     /**
@@ -123,6 +126,19 @@ class LicenciaController extends Controller
                 'success' => false,
                 'message' => 'Error al cambiar el estado de la licencia.'
             ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $licencia = Licencia::findOrFail($id);
+            $licencia->estado = $request->estado;
+            $licencia->save();
+
+            return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el estado'], 500);
         }
     }
 }

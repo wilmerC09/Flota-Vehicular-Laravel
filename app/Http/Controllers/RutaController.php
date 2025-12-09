@@ -49,12 +49,12 @@ class RutaController extends Controller
 
             return redirect()->route('rutas.index')
                 ->with('successMsg', 'Ruta creada exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
-                
+
         } catch (\Illuminate\Database\QueryException $e) {
             \Log::error('Error al crear la ruta: ' . $e->getMessage());
             return redirect()->back()
@@ -71,12 +71,10 @@ class RutaController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $ruta = Ruta::findOrFail($id);
+        return view('rutas.edit', compact('ruta'));
     }
 
     /**
@@ -84,7 +82,11 @@ class RutaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $ruta = Ruta::findOrFail($id);
+        $ruta->update($request->all());
+
+        return redirect()->route('rutas.index')
+            ->with('successMsg', 'Ruta actualizada exitosamente.');
     }
 
     /**
@@ -120,6 +122,19 @@ class RutaController extends Controller
                 'success' => false,
                 'message' => 'Error al cambiar el estado de la ruta.'
             ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $ruta = Ruta::findOrFail($id);
+            $ruta->estado = $request->estado;
+            $ruta->save();
+
+            return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el estado'], 500);
         }
     }
 }

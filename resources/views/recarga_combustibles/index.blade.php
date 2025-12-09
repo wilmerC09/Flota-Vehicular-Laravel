@@ -1,189 +1,114 @@
 @extends('layouts.app')
-
-@section('title','Listado De Recargas de Combustible')
-
+@section('title', 'Combustible')
 @section('content')
-
-<div class="content-wrapper pb-4">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="m-0"><i class="fas fa-gas-pump mr-2"></i>Recargas de Combustible</h1>
-                <a href="{{ route('recarga_combustibles.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus mr-1"></i> Nueva Recarga
-                </a>
+    <div class="content-wrapper" style="background: #f8f9fa;">
+        <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Combustible</h1>
+                        <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;"><a href="{{ route('home') }}"
+                                style="color: #6b7280; text-decoration: none;">Home</a><span
+                                style="margin: 0 8px;">/</span><span>Combustible</span></nav>
+                    </div><a href="{{ route('recarga_combustibles.create') }}"
+                        style="background: #1f2937; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items-center; gap: 8px;"><i
+                            class="fas fa-plus"></i> Nueva Recarga</a>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="container-fluid">
-            {{-- Agregando mensajes de éxito y error --}}
-            @if(session('successMsg'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white border-bottom">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="card-title font-weight-bold mb-0">
-                                    <i class="fas fa-list mr-2 text-primary"></i>Listado de Recargas
-                                </h3>
-                                <div class="search-box" style="width: 300px;">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-white border-right-0">
-                                                <i class="fas fa-search text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" id="searchTable" class="form-control border-left-0" 
-                                               placeholder="Buscar recarga...">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table id="example1" class="table table-hover align-middle mb-0" style="width:100%">
-                                    <thead class="bg-light">
-                                        <tr>
-                                            <th class="text-center" style="width: 60px;">
-                                                <i class="fas fa-hashtag text-muted"></i> ID
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-car text-muted"></i> Vehículo
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fas fa-tint text-muted"></i> Cantidad (L)
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fas fa-dollar-sign text-muted"></i> Precio/Litro
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fas fa-money-bill-wave text-muted"></i> Costo Total
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-map-marker-alt text-muted"></i> Estación
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-user text-muted"></i> Registrado por
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-calendar text-muted"></i> Fecha
-                                            </th>
-                                            <th class="text-center" style="width: 140px;">
-                                                <i class="fas fa-cog text-muted"></i> Acciones
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($recarga_combustibles as $recarga)
-                                        <tr>
-                                            <td class="text-center font-weight-bold text-muted">
-                                                {{ $recarga->id }}
-                                            </td>
-                                            <td>
-                                                <span class="font-weight-bold text-dark">
-                                                    {{ $recarga->vehiculo->placa ?? 'N/A' }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="badge badge-primary px-2 py-1">
-                                                    {{ $recarga->cantidad_litros }} L
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="badge badge-info px-2 py-1">
-                                                    ${{ number_format($recarga->precio_litro, 2) }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="badge badge-success px-2 py-1">
-                                                    ${{ number_format($recarga->costo_total, 2) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <i class="fas fa-building text-warning mr-1"></i>
-                                                <span class="text-secondary">{{ $recarga->estacion_servicio }}</span>
-                                            </td>
-                                            <td>
-                                                <span class="text-secondary">{{ $recarga->registrado_por }}</span>
-                                            </td>
-                                            <td>
-                                                <i class="fas fa-clock text-muted mr-1"></i>
-                                                {{ $recarga->created_at->format('d/m/Y H:i') }}
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group" role="group">
-                                                    <a href="{{ route('recarga_combustibles.edit', $recarga->id) }}"
-                                                        class="btn btn-sm btn-info" title="Editar">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-
-                                                    {{-- Formulario de eliminación corregido --}}
-                                                    <form class="delete-form d-inline" 
-                                                          action="{{ route('recarga_combustibles.destroy', $recarga->id) }}" 
-                                                          method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        {{-- Agregada sección de paginación en el footer de la card --}}
-                        <div class="card-footer bg-white border-top">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-muted">
-                                    Mostrando {{ $recarga_combustibles->firstItem() ?? 0 }} a {{ $recarga_combustibles->lastItem() ?? 0 }}
-                                    de {{ $recarga_combustibles->total() }} registros
-                                </div>
-                                <div>
-                                    {{ $recarga_combustibles->links('pagination::bootstrap-4') }}
+        </section>
+        <section class="content" style="padding: 1.5rem 1rem;">
+            <div class="container-fluid">@if(session('successMsg'))
+                <div class="alert alert-success alert-dismissible fade show"
+                    style="border-radius: 8px; border-left: 4px solid #10b981;"><i
+                        class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}<button type="button" class="close"
+            data-dismiss="alert"><span>&times;</span></button></div>@endif
+                <div class="card" style="border: none; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <div class="card-header"
+                        style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.5rem;">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"
+                                            style="background: white; border-right: none;"><i class="fas fa-search"
+                                                style="color: #9ca3af;"></i></span></div><input type="text" id="searchInput"
+                                        class="form-control" placeholder="Buscar..." style="border-left: none;">
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead style="background: #f9fafb;">
+                                <tr>
+                                    <th style="padding: 12px 16px; width: 40px;"><input type="checkbox" id="selectAll"></th>
+                                    <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;">
+                                        Vehículo</th>
+                                    <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;">
+                                        Litros</th>
+                                    <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;">Costo
+                                    </th>
+                                    <th
+                                        style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center;">
+                                        Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($recarga_combustibles as $recarga)
+                                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                                        <td style="padding: 12px 16px;"><input type="checkbox" class="row-checkbox"></td>
+                                        <td style="padding: 12px 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    style="width: 48px; height: 48px; border-radius: 8px; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); display: flex; align-items: center; justify-content: center; margin-right: 12px; color: white; font-weight: 700;">
+                                                    <i class="fas fa-gas-pump"></i>
+                                                </div>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1f2937;">
+                                                        {{ $recarga->vehiculo->placa ?? 'N/A' }}
+                                                    </div>
+                                                    <div style="font-size: 13px; color: #6b7280;">
+                                                        {{ $recarga->estacion_servicio }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 12px 16px; color: #4b5563;">{{ $recarga->cantidad_litros }} L</td>
+                                        <td style="padding: 12px 16px; color: #10b981; font-weight: 600;">
+                                            ${{ number_format($recarga->costo_total, 2) }}</td>
+                                        <td style="padding: 12px 16px; text-align: center;"><button
+                                                onclick="window.location='{{ route('recarga_combustibles.edit', $recarga->id) }}'"
+                                                style="background: transparent; border: none; color: #6b7280; padding: 6px 8px;"><i
+                                                    class="fas fa-edit"></i></button><button
+                                                onclick="confirmDelete({{ $recarga->id }})"
+                                                style="background: transparent; border: none; color: #ef4444; padding: 6px 8px;"><i
+                                                    class="fas fa-trash"></i></button>
+                                            <form id="delete-form-{{ $recarga->id }}"
+                                                action="{{ route('recarga_combustibles.destroy', $recarga->id) }}" method="POST"
+                                                style="display: none;">@csrf @method('DELETE')</form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center" style="padding: 40px;"><i class="fas fa-inbox"
+                                                style="font-size: 48px; color: #9ca3af; display: block; margin-bottom: 16px;"></i>
+                                            <p style="color: #9ca3af;">No hay recargas registradas</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    @if($recarga_combustibles->hasPages())
+                        <div class="card-footer"
+                            style="background: white; border-top: 1px solid #e5e7eb; padding: 1rem 1.5rem;">
+                            {{ $recarga_combustibles->links('pagination::bootstrap-4') }}
+                    </div>@endif
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-
+        </section>
+    </div>
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>document.getElementById('searchInput')?.addEventListener('keyup', function () { document.querySelectorAll('tbody tr').forEach(row => { row.style.display = row.textContent.toLowerCase().includes(this.value.toLowerCase()) ? '' : 'none'; }); }); function confirmDelete(id) { Swal.fire({ title: '¿Estás seguro?', text: "No podrás revertir esta acción", icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#6b7280', confirmButtonText: 'Sí, eliminar', cancelButtonText: 'Cancelar' }).then((result) => { if (result.isConfirmed) document.getElementById('delete-form-' + id).submit(); }); }</script>
+    @endpush
 @endsection
-
-@push('styles')
-{{-- Agregando estilos personalizados de empresas --}}
-<link rel="stylesheet" href="{{ asset('backend/dist/css/recarga.css') }}">
-@endpush
-
-{{-- Scripts en el orden correcto --}}
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="{{ asset('backend/dist/js/recarga_combustibles.js') }}"></script>
-<script src="{{ asset('backend/dist/js/statuschange.js') }}"></script>
-<script src="{{ asset('backend/dist/js/delete-confirm.js') }}"></script>
-@endpush

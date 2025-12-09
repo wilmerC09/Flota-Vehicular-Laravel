@@ -35,7 +35,7 @@ class ViajeController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $validated = $request->validate([
                 'vehiculo_id' => 'required|exists:vehiculos,id',
                 'conductor_id' => 'required|exists:conductores,id',
@@ -73,12 +73,13 @@ class ViajeController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $viaje = Viaje::findOrFail($id);
+        $rutas = Ruta::all();
+        $vehiculos = Vehiculo::all();
+        $conductores = Conductor::all();
+        return view('viajes.edit', compact('viaje', 'rutas', 'vehiculos', 'conductores'));
     }
 
     /**
@@ -86,7 +87,11 @@ class ViajeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $viaje = Viaje::findOrFail($id);
+        $viaje->update($request->all());
+
+        return redirect()->route('viajes.index')
+            ->with('successMsg', 'Viaje actualizado exitosamente.');
     }
 
     /**
@@ -94,7 +99,7 @@ class ViajeController extends Controller
      */
     public function destroy(Viaje $viaje)
     {
-        try{
+        try {
             $viaje->delete();
             return redirect()->route('viajes.index')
                 ->with('successMsg', 'Viaje eliminado exitosamente.');
@@ -126,6 +131,19 @@ class ViajeController extends Controller
                 'success' => false,
                 'message' => 'Error al cambiar el estado del viaje.'
             ], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $viaje = Viaje::findOrFail($id);
+            $viaje->estado = $request->estado;
+            $viaje->save();
+
+            return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el estado'], 500);
         }
     }
 }

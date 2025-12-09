@@ -12,10 +12,10 @@ use App\Http\Requests\Tipo_VehiculoRequest;
 class Tipo_VehiculoController extends Controller
 {
     public function index()
-{
-    $tipo_vehiculos = Tipo_Vehiculo::paginate(10); // o el número que desees por página
-    return view('tipo_vehiculos.index', compact('tipo_vehiculos'));
-}
+    {
+        $tipo_vehiculos = Tipo_Vehiculo::paginate(10); // o el número que desees por página
+        return view('tipo_vehiculos.index', compact('tipo_vehiculos'));
+    }
 
     public function create()
     {
@@ -28,7 +28,7 @@ class Tipo_VehiculoController extends Controller
         return redirect()->route('tipo_vehiculos.index')->with('successMsg', 'Tipo de Vehículo creado con éxito');
     }
 
-    public function cambioestadotipo_vehiculo($id)  
+    public function cambioestadotipo_vehiculo($id)
     {
         $tipo_vehiculo = Tipo_Vehiculo::findOrFail($id);
         $tipo_vehiculo->estado = !$tipo_vehiculo->estado;
@@ -47,12 +47,17 @@ class Tipo_VehiculoController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $tipo_vehiculo = Tipo_Vehiculo::findOrFail($id);
+        return view('tipo_vehiculos.edit', compact('tipo_vehiculo'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $tipo_vehiculo = Tipo_Vehiculo::findOrFail($id);
+        $tipo_vehiculo->update($request->all());
+
+        return redirect()->route('tipo_vehiculos.index')
+            ->with('successMsg', 'Tipo de Vehículo actualizado exitosamente.');
     }
 
     public function destroy(Tipo_Vehiculo $tipo_vehiculo)
@@ -66,6 +71,18 @@ class Tipo_VehiculoController extends Controller
         } catch (Exception $e) {
             Log::error('Error inesperado al eliminar el tipo de vehículo: ' . $e->getMessage());
             return redirect()->route('tipo_vehiculos.index')->withErrors('Ocurrió un error inesperado al eliminar el registro. Comuníquese con el Administrador');
+        }
+    }
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $tipo_vehiculo = Tipo_Vehiculo::findOrFail($id);
+            $tipo_vehiculo->estado = $request->estado;
+            $tipo_vehiculo->save();
+
+            return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el estado'], 500);
         }
     }
 }

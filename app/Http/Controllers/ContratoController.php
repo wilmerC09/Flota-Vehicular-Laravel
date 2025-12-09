@@ -46,18 +46,34 @@ class ContratoController extends Controller
 
             return redirect()->route('contratos.index')
                 ->with('successMsg', 'Contrato creado exitosamente.');
-                
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
-                
+
         } catch (QueryException $e) {
             Log::error('Error al crear el contrato: ' . $e->getMessage());
             return redirect()->back()
                 ->with('error', 'Error al crear el contrato en la base de datos.')
                 ->withInput();
         }*/
+    }
+
+    public function edit(string $id)
+    {
+        $contrato = Contrato::findOrFail($id);
+        $conductores = Conductor::all();
+        return view('contratos.edit', compact('contrato', 'conductores'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $contrato = Contrato::findOrFail($id);
+        $contrato->update($request->all());
+
+        return redirect()->route('contratos.index')
+            ->with('successMsg', 'Contrato actualizado exitosamente.');
     }
 
     /**
@@ -97,6 +113,25 @@ class ContratoController extends Controller
         } catch (\Exception $e) {
             Log::error('Error inesperado al eliminar el contrato: ' . $e->getMessage());
             return redirect()->route('contratos.index')->with('error', 'Error inesperado al eliminar el contrato: ' . $e->getMessage());
+        }
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $contrato = Contrato::findOrFail($id);
+            $contrato->estado = $request->estado;
+            $contrato->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado actualizado correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado'
+            ], 500);
         }
     }
 }

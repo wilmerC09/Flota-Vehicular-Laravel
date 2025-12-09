@@ -41,21 +41,19 @@ class VehiculoController extends Controller
         // Manejar la subida de imagen
         $image = $request->file('imagen');
         $slug = Str::slug($request->placa);
-        
-        if (isset($image))
-        {
-            $currentDate = Carbon::now()->toDateString();
-            $imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
 
-            if (!file_exists('uploads/vehiculos'))
-            {
+        if (isset($image)) {
+            $currentDate = Carbon::now()->toDateString();
+            $imagename = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            if (!file_exists('uploads/vehiculos')) {
                 mkdir('uploads/vehiculos', 0777, true);
             }
             $image->move('uploads/vehiculos', $imagename);
         } else {
             $imagename = "";
         }
-        
+
         // Crear el vehículo con la imagen
         $vehiculo = Vehiculo::create(array_merge($request->except('imagen'), [
             'imagen' => $imagename
@@ -110,15 +108,49 @@ class VehiculoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $vehiculo = Vehiculo::findOrFail($id);
+        $marcas = Marca::all()->unique('nombre');
+        $tipo_vehiculos = Tipo_Vehiculo::all()->unique('nombre');
+
+        return view('vehiculos.edit', compact('vehiculo', 'marcas', 'tipo_vehiculos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(VehiculoRequest $request, string $id)
     {
-        //
+        $vehiculo = Vehiculo::findOrFail($id);
+
+        // Manejar la subida de imagen
+        $image = $request->file('imagen');
+        $slug = Str::slug($request->placa);
+
+        if (isset($image)) {
+            // Eliminar imagen anterior si existe
+            if ($vehiculo->imagen && file_exists(public_path('uploads/vehiculos/' . $vehiculo->imagen))) {
+                unlink(public_path('uploads/vehiculos/' . $vehiculo->imagen));
+            }
+
+            $currentDate = Carbon::now()->toDateString();
+            $imagename = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            if (!file_exists('uploads/vehiculos')) {
+                mkdir('uploads/vehiculos', 0777, true);
+            }
+            $image->move('uploads/vehiculos', $imagename);
+
+            // Actualizar con nueva imagen
+            $vehiculo->update(array_merge($request->except('imagen'), [
+                'imagen' => $imagename
+            ]));
+        } else {
+            // Actualizar sin cambiar la imagen
+            $vehiculo->update($request->except('imagen'));
+        }
+
+        return redirect()->route('vehiculos.index')
+            ->with('successMsg', 'Vehículo actualizado exitosamente.');
     }
 
     /**
@@ -126,7 +158,7 @@ class VehiculoController extends Controller
      */
     public function destroy(Vehiculo $vehiculo)
     {
-        try{
+        try {
             // Eliminar imagen si existe
             if ($vehiculo->imagen && file_exists(public_path('uploads/vehiculos/' . $vehiculo->imagen))) {
                 unlink(public_path('uploads/vehiculos/' . $vehiculo->imagen));
@@ -143,6 +175,28 @@ class VehiculoController extends Controller
             Log::error('Error inesperado al eliminar el vehículo: ' . $e->getMessage());
             return redirect()->route('vehiculos.index')
                 ->with('error', 'Error inesperado al eliminar el vehículo.');
+        }
+    }
+
+    /**
+     * Toggle status via AJAX
+     */
+    public function toggleStatus(Request $request, $id)
+    {
+        try {
+            $vehiculo = Vehiculo::findOrFail($id);
+            $vehiculo->estado = $request->estado;
+            $vehiculo->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado actualizado correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado'
+            ], 500);
         }
     }
 }

@@ -1,185 +1,278 @@
 @extends('layouts.app')
 
-@section('title','Listado De Marcas')
-
-{{-- Importar estilos de marcas --}}
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/marcas.css') }}">
-@endpush
+@section('title', 'Marcas')
 
 @section('content')
-
-<div class="content-wrapper pb-4">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="m-0"><i class="fas fa-tags mr-2"></i>Marcas de Vehículos</h1>
-                <a href="{{ route('marcas.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus mr-1"></i> Nueva Marca
-                </a>
+    <div class="content-wrapper" style="background: #f8f9fa;">
+        <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Marcas de Vehículos</h1>
+                        <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                            <a href="{{ route('home') }}" style="color: #6b7280; text-decoration: none;">Home</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <span>Marcas</span>
+                        </nav>
+                    </div>
+                    <a href="{{ route('marcas.create') }}"
+                        style="background: #1f2937; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fas fa-plus"></i> Nueva Marca
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="content">
-        <div class="container-fluid">
-            {{-- Agregando mensajes de éxito y error --}}
-            @if(session('successMsg'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+        <section class="content" style="padding: 1.5rem 1rem;">
+            <div class="container-fluid">
+                @if(session('successMsg'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert"
+                        style="border-radius: 8px; border-left: 4px solid #10b981;">
+                        <i class="fas fa-check-circle mr-2"></i>{{ session('successMsg') }}
+                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    </div>
+                @endif
 
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                        style="border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    </div>
+                @endif
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white border-bottom">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="card-title font-weight-bold mb-0">
-                                    <i class="fas fa-list mr-2 text-primary"></i>Listado de Marcas
-                                </h3>
-                                <div class="search-box" style="width: 300px;">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-white border-right-0">
-                                                <i class="fas fa-search text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" id="searchTable" class="form-control border-left-0" 
-                                               placeholder="Buscar marca...">
+                <div class="card" style="border: none; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <div class="card-header"
+                        style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.5rem; border-radius: 12px 12px 0 0;">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            style="background: white; border-right: none; border-color: #d1d5db;"><i
+                                                class="fas fa-search" style="color: #9ca3af;"></i></span>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table id="example1" class="table table-hover align-middle mb-0" style="width:100%">
-                                    <thead class="bg-light">
-                                        <tr>
-                                            <th class="text-center" style="width: 60px;">
-                                                <i class="fas fa-hashtag text-muted"></i> ID
-                                            </th>
-                                            <th class="text-center" style="width: 80px;">
-                                                <i class="fas fa-image text-muted"></i> Logo
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-building text-muted"></i> Nombre
-                                            </th>
-                                            <th>
-                                                <i class="fas fa-globe-americas text-muted"></i> País Origen
-                                            </th>
-                                            <th class="text-center" style="width: 120px;">
-                                                <i class="fas fa-toggle-on text-muted"></i> Estado
-                                            </th>
-                                            <th class="text-center" style="width: 140px;">
-                                                <i class="fas fa-cog text-muted"></i> Acciones
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($marcas as $marca)
-                                        <tr>
-                                            <td class="text-center font-weight-bold text-muted">
-                                                {{ $marca->id }}
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="https://logo.clearbit.com/{{ strtolower($marca->nombre) }}.com" 
-                                                     alt="{{ $marca->nombre }}" 
-                                                     class="rounded border"
-                                                     style="width: 50px; height: 50px; object-fit: contain; padding: 5px; background: #f8f9fa;"
-                                                     onerror="this.onerror=null; this.outerHTML='<div class=\'d-inline-flex justify-content-center align-items-center\' style=\'width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white; font-weight: bold; font-size: 16px;\'>{{ strtoupper(substr($marca->nombre, 0, 2)) }}</div>'">
-                                            </td>
-                                            <td>
-                                                <span class="font-weight-bold text-dark">{{ $marca->nombre }}</span>
-                                            </td>
-                                            <td>
-                                                <i class="fas fa-map-marker-alt text-danger mr-1"></i>
-                                                {{ $marca->pais_origen }}
-                                            </td>
-                                            <td class="text-center">
-                                                @if($marca->estado)
-                                                    <span class="badge badge-success px-3 py-2" style="cursor: pointer;" title="Clic para cambiar estado">
-                                                        <i class="fas fa-check-circle mr-1"></i> Activo
-                                                    </span>
-                                                @else
-                                                    <span class="badge badge-danger px-3 py-2" style="cursor: pointer;" title="Clic para cambiar estado">
-                                                        <i class="fas fa-times-circle mr-1"></i> Inactivo
-                                                    </span>
-                                                @endif
-                                                <input data-type="marcas" data-id="{{ $marca->id }}"
-                                                    class="toggle-class d-none" type="checkbox" 
-                                                    data-onstyle="success"
-                                                    data-offstyle="danger" data-toggle="toggle" 
-                                                    data-on="Activo"
-                                                    data-off="Inactivo" {{ $marca->estado ? 'checked' : '' }}>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group" role="group">
-                                                    <a href="{{ route('marcas.edit', $marca->id) }}"
-                                                        class="btn btn-sm btn-info" title="Editar">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-
-                                                    {{-- Formulario de eliminación corregido --}}
-                                                    <form class="delete-form d-inline" 
-                                                          action="{{ route('marcas.destroy', $marca->id) }}" 
-                                                          method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-muted">
-                                    Mostrando {{ $marcas->firstItem() ?? 0 }} a {{ $marcas->lastItem() ?? 0 }}
-                                    de {{ $marcas->total() }} registros
-                                </div>
-                                <div>
-                                    {{ $marcas->links('pagination::bootstrap-4') }}
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar..."
+                                        style="border-left: none; border-color: #d1d5db;">
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" style="border-collapse: separate; border-spacing: 0;">
+                                <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                                    <tr>
+                                        <th style="padding: 12px 16px; width: 40px; border-bottom: 1px solid #e5e7eb;">
+                                            <input type="checkbox" id="selectAll">
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-hashtag text-muted mr-1"></i>ID
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-image text-muted mr-1"></i>Logo
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-building text-muted mr-1"></i>Nombre
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                                            <i class="fas fa-globe text-muted mr-1"></i>País de Origen
+                                        </th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                                            Estado</th>
+                                        <th
+                                            style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                                            Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($marcas as $marca)
+                                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                                            <td style="padding: 12px 16px;"><input type="checkbox" class="row-checkbox"
+                                                    value="{{ $marca->id }}"></td>
+                                            <td style="padding: 12px 16px; color: #6b7280; font-weight: 600;">{{ $marca->id }}
+                                            </td>
+                                            <td style="padding: 12px 16px;">
+                                                <img src="https://logo.clearbit.com/{{ strtolower($marca->nombre) }}.com"
+                                                    alt="{{ $marca->nombre }}" class="rounded border"
+                                                    style="width: 50px; height: 50px; object-fit: contain; padding: 5px; background: #f8f9fa;"
+                                                    onerror="this.onerror=null; this.outerHTML='<div class=\'d-inline-flex justify-content-center align-items-center\' style=\'width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white; font-weight: bold; font-size: 16px;\'>{{ strtoupper(substr($marca->nombre, 0, 2)) }}</div>'">
+                                            </td>
+                                            <td style="padding: 12px 16px; font-weight: 600; color: #1f2937;">
+                                                {{ $marca->nombre }}
+                                            </td>
+                                            <td style="padding: 12px 16px; color: #4b5563;"><i
+                                                    class="fas fa-map-marker-alt mr-1"
+                                                    style="color: #ef4444;"></i>{{ $marca->pais_origen }}</td>
+                                            <td style="padding: 12px 16px; text-align: center;">
+                                                <span class="status-badge" data-id="{{ $marca->id }}" data-model="marcas"
+                                                    data-status="{{ $marca->estado }}"
+                                                    style="background: {{ $marca->estado ? '#d1fae5' : '#fee2e2' }}; color: {{ $marca->estado ? '#047857' : '#dc2626' }}; padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                                                    onclick="toggleStatus(this)">
+                                                    {{ $marca->estado ? 'Activo' : 'Inactivo' }}
+                                                </span>
+                                            </td>
+                                            <td style="padding: 12px 16px; text-align: center;">
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="window.location='{{ route('marcas.edit', $marca->id) }}'"
+                                                        style="background: transparent; border: none; color: #6b7280; padding: 6px 8px;"
+                                                        title="Editar"><i class="fas fa-edit"></i></button>
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="confirmDelete({{ $marca->id }})"
+                                                        style="background: transparent; border: none; color: #ef4444; padding: 6px 8px;"
+                                                        title="Eliminar"><i class="fas fa-trash"></i></button>
+                                                </div>
+                                                <form id="delete-form-{{ $marca->id }}"
+                                                    action="{{ route('marcas.destroy', $marca->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center" style="padding: 40px; color: #9ca3af;">
+                                                <i class="fas fa-inbox"
+                                                    style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                                <p style="margin: 0; font-size: 16px;">No hay marcas registradas</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    @if($marcas->hasPages())
+                        <div class="card-footer"
+                            style="background: white; border-top: 1px solid #e5e7eb; padding: 1rem 1.5rem; border-radius: 0 0 12px 12px;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div style="color: #6b7280; font-size: 14px;">
+                                    Mostrando {{ $marcas->firstItem() }} a {{ $marcas->lastItem() }} de {{ $marcas->total() }}
+                                    marcas
+                                </div>
+                                <div>{{ $marcas->links('pagination::bootstrap-4') }}</div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                const searchTerm = this.value.toLowerCase();
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            document.getElementById('selectAll')?.addEventListener('change', function () {
+                document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás revertir esta acción",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
+                });
+            }
+
+            function toggleStatus(element) {
+                const id = element.dataset.id;
+                const model = element.dataset.model;
+                const currentStatus = element.dataset.status == 1;
+                const newStatus = currentStatus ? 0 : 1;
+
+                Swal.fire({
+                    title: '¿Cambiar estado?',
+                    text: `¿Desea cambiar el estado a ${newStatus ? 'Activo' : 'Inactivo'}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10b981',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, cambiar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/${model}/${id}/toggle-status`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({ estado: newStatus })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    element.dataset.status = newStatus;
+                                    element.style.background = newStatus ? '#d1fae5' : '#fee2e2';
+                                    element.style.color = newStatus ? '#047857' : '#dc2626';
+                                    element.textContent = newStatus ? 'Activo' : 'Inactivo';
+
+                                    Swal.fire({
+                                        title: '¡Actualizado!',
+                                        text: 'El estado ha sido cambiado exitosamente',
+                                        icon: 'success',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    Swal.fire('Error', 'No se pudo actualizar el estado', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error', 'Ocurrió un error al actualizar el estado', 'error');
+                            });
+                    }
+                });
+            }
+
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    this.style.background = '#f3f4f6';
+                    this.style.borderRadius = '6px';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    this.style.background = 'transparent';
+                });
+            });
+        </script>
+    @endpush
+
+    <style>
+        .table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        a[href*="create"]:hover {
+            background: #111827 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
 @endsection
-
-@push('styles')
-{{-- Agregando estilos personalizados de empresas --}}
-<link rel="stylesheet" href="{{ asset('backend/dist/css/marcas.css') }}">
-@endpush
-
-{{-- Scripts en el orden correcto --}}
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="{{ asset('backend/dist/js/marcas.js') }}"></script>
-<script src="{{ asset('backend/dist/js/statuschange.js') }}"></script>
-<script src="{{ asset('backend/dist/js/delete-confirm.js') }}"></script>
-@endpush

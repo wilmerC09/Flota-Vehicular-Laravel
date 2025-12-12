@@ -51,6 +51,8 @@
                                             class="fas fa-road text-muted mr-1"></i>Distancia (km)</th>
                                     <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
                                             class="fas fa-dollar-sign text-muted mr-1"></i>Costo Peaje</th>
+                                    <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
+                                            class="fas fa-money-bill-wave text-muted mr-1"></i>Precio (COP)</th>
                                     <th
                                         style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280; text-align: center;">
                                         Estado</th>
@@ -79,7 +81,9 @@
                                             {{ number_format($ruta->distancia_en_km, 2) }} km
                                         </td>
                                         <td style="padding: 12px 16px; color: #10b981; font-weight: 600;">
-                                            ${{ number_format($ruta->costo_peaje, 2) }}</td>
+                                            ${{ number_format($ruta->costo_peaje, 0) }}</td>
+                                        <td style="padding: 12px 16px; color: #059669; font-weight: 600;">
+                                            ${{ number_format($ruta->precio ?? 0, 0) }}</td>
                                         <td style="padding: 12px 16px; text-align: center;"><span class="status-badge"
                                                 data-id="{{ $ruta->id }}" data-model="rutas" data-status="{{ $ruta->estado }}"
                                                 style="background: {{ $ruta->estado ? '#d1fae5' : '#fee2e2' }}; color: {{ $ruta->estado ? '#047857' : '#dc2626' }}; padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;"
@@ -99,7 +103,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center" style="padding: 40px;"><i class="fas fa-inbox"
+                                        <td colspan="9" class="text-center" style="padding: 40px;"><i class="fas fa-inbox"
                                                 style="font-size: 48px; color: #9ca3af; display: block; margin-bottom: 16px;"></i>
                                             <p style="color: #9ca3af;">No hay rutas registradas</p>
                                         </td>

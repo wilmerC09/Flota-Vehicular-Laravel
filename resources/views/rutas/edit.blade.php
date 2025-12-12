@@ -91,7 +91,7 @@
 
                                     <div class="row">
                                         {{-- Distancia en KM --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="distancia_en_km">
                                                     <i class="fas fa-road text-warning mr-1"></i>
@@ -111,7 +111,7 @@
                                         </div>
 
                                         {{-- Tiempo Estimado --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="tiempo_estimado">
                                                     <i class="fas fa-clock text-success mr-1"></i>
@@ -131,7 +131,7 @@
                                         </div>
 
                                         {{-- Costo de Peaje --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="costo_peaje">
                                                     <i class="fas fa-dollar-sign text-danger mr-1"></i>
@@ -143,6 +143,25 @@
                                                     value="{{ old('costo_peaje', $ruta->costo_peaje) }}"
                                                     placeholder="Ej: 10.50" min="0" step="0.01" required>
                                                 @error('costo_peaje')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        {{-- Precio --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="precio">
+                                                    <i class="fas fa-money-bill-wave text-success mr-1"></i>
+                                                    Precio de Ruta (COP)
+                                                </label>
+                                                <input type="number"
+                                                    class="form-control @error('precio') is-invalid @enderror"
+                                                    name="precio" id="precio" value="{{ old('precio', $ruta->precio) }}"
+                                                    placeholder="Ej: 250000 (sin comas)" min="0" step="0.01">
+                                                @error('precio')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>

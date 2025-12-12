@@ -74,8 +74,10 @@
                                                     <i class="fas fa-align-left text-info mr-1"></i>
                                                     Descripción <strong style="color:red;">(*)</strong>
                                                 </label>
-                                                <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="descripcion"
-                                                    rows="3" placeholder="Ej: Ruta que conecta la ciudad A con la ciudad B" required>{{ old('descripcion') }}</textarea>
+                                                <textarea class="form-control @error('descripcion') is-invalid @enderror"
+                                                    name="descripcion" id="descripcion" rows="3"
+                                                    placeholder="Ej: Ruta que conecta la ciudad A con la ciudad B"
+                                                    required>{{ old('descripcion') }}</textarea>
                                                 @error('descripcion')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -87,7 +89,7 @@
 
                                     <div class="row">
                                         {{-- Distancia en KM --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="distancia_en_km">
                                                     <i class="fas fa-road text-warning mr-1"></i>
@@ -96,8 +98,8 @@
                                                 <input type="number"
                                                     class="form-control @error('distancia_en_km') is-invalid @enderror"
                                                     name="distancia_en_km" id="distancia_en_km"
-                                                    value="{{ old('distancia_en_km') }}" placeholder="Ej: 100"
-                                                    min="0" step="0.01" required>
+                                                    value="{{ old('distancia_en_km') }}" placeholder="Ej: 100" min="0"
+                                                    step="0.01" required>
                                                 @error('distancia_en_km')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -107,7 +109,7 @@
                                         </div>
 
                                         {{-- Tiempo Estimado --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="tiempo_estimado">
                                                     <i class="fas fa-clock text-success mr-1"></i>
@@ -116,8 +118,8 @@
                                                 <input type="number"
                                                     class="form-control @error('tiempo_estimado') is-invalid @enderror"
                                                     name="tiempo_estimado" id="tiempo_estimado"
-                                                    value="{{ old('tiempo_estimado') }}" placeholder="Ej: 2.5"
-                                                    min="0" step="0.01" required>
+                                                    value="{{ old('tiempo_estimado') }}" placeholder="Ej: 2.5" min="0"
+                                                    step="0.01" required>
                                                 @error('tiempo_estimado')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -127,7 +129,7 @@
                                         </div>
 
                                         {{-- Costo de Peaje --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="costo_peaje">
                                                     <i class="fas fa-dollar-sign text-danger mr-1"></i>
@@ -138,6 +140,25 @@
                                                     name="costo_peaje" id="costo_peaje" value="{{ old('costo_peaje') }}"
                                                     placeholder="Ej: 10.50" min="0" step="0.01" required>
                                                 @error('costo_peaje')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        {{-- Precio --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="precio">
+                                                    <i class="fas fa-money-bill-wave text-success mr-1"></i>
+                                                    Precio de Ruta (COP)
+                                                </label>
+                                                <input type="number"
+                                                    class="form-control @error('precio') is-invalid @enderror" name="precio"
+                                                    id="precio" value="{{ old('precio') }}" placeholder="Ej: 250000 (sin comas)" min="0"
+                                                    step="0.01">
+                                                @error('precio')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>

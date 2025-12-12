@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ruta extends Model
 {
-    Use HasFactory;
+    use HasFactory;
     protected $table = 'rutas';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -17,12 +17,13 @@ class Ruta extends Model
         'distancia_en_km',
         'tiempo_estimado',
         'costo_peaje',
+        'precio',
         'estado',
         'registrado_por',
     ];
-    protected $guarded=[
+    protected $guarded = [
         'created_at',
-        'updated_at'   
+        'updated_at'
     ];
 
     //relacion con viaje(uno a muchos)

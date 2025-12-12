@@ -54,9 +54,9 @@
                                                     Nombre <strong style="color:red;">(*)</strong>
                                                 </label>
                                                 <input type="text"
-                                                    class="form-control @error('nombre') is-invalid @enderror"
-                                                    name="nombre" id="nombre" value="{{ old('nombre') }}"
-                                                    placeholder="Ej: Toyota" required>
+                                                    class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                                    id="nombre" value="{{ old('nombre') }}" placeholder="Ej: Toyota"
+                                                    required>
                                                 @error('nombre')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

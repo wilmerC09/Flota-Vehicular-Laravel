@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Editar Marca')
 
@@ -90,7 +90,7 @@
                                                     class="form-control @error('pais_origen') is-invalid @enderror"
                                                     name="pais_origen" id="pais_origen"
                                                     value="{{ old('pais_origen', $marca->pais_origen) }}"
-                                                    placeholder="Ej: Japón" required>
+                                                    placeholder="Ej: JapÃ³n" required>
                                                 @error('pais_origen')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -132,4 +132,28 @@
             </div>
         </section>
     </div>
-@endsection
+@endsection@ p u s h ( ' s t y l e s ' ) 
+         < l i n k   h r e f = \  
+ h t t p s : / / c d n . j s d e l i v r . n e t / n p m / s e l e c t 2 @ 4 . 1 . 0 - r c . 0 / d i s t / c s s / s e l e c t 2 . m i n . c s s \   r e l = \ s t y l e s h e e t \   / > 
+         < s t y l e > 
+                 . s e l e c t 2 - c o n t a i n e r - - d e f a u l t   . s e l e c t 2 - s e l e c t i o n - - s i n g l e   { 
+                         b o r d e r :   1 p x   s o l i d   # c e d 4 d a ;   h e i g h t :   3 8 p x ;   b o r d e r - r a d i u s :   0 . 2 5 r e m ; 
+                 } 
+                 . s e l e c t 2 - c o n t a i n e r - - d e f a u l t   . s e l e c t 2 - s e l e c t i o n - - s i n g l e   . s e l e c t 2 - s e l e c t i o n _ _ r e n d e r e d   {   l i n e - h e i g h t :   3 6 p x ;   } 
+                 . s e l e c t 2 - c o n t a i n e r - - d e f a u l t   . s e l e c t 2 - s e l e c t i o n - - s i n g l e   . s e l e c t 2 - s e l e c t i o n _ _ a r r o w   {   h e i g h t :   3 6 p x ;   } 
+         < / s t y l e > 
+ @ e n d p u s h 
+ 
+ @ p u s h ( ' s c r i p t s ' ) 
+         < s c r i p t   s r c = \ h t t p s : / / c d n . j s d e l i v r . n e t / n p m / s e l e c t 2 @ 4 . 1 . 0 - r c . 0 / d i s t / j s / s e l e c t 2 . m i n . j s \ > < / s c r i p t > 
+         < s c r i p t > 
+                 . r e a d y ( f u n c t i o n ( )   { 
+                         # p a i s _ o r i g e n . s e l e c t 2 ( { 
+                                 p l a c e h o l d e r :   ' S e l e c c i o n e   u n   p a � s ' , 
+                                 a l l o w C l e a r :   t r u e , 
+                                 l a n g u a g e :   {   n o R e s u l t s :   f u n c t i o n ( )   {   r e t u r n   ' N o   s e   e n c o n t r a r o n   r e s u l t a d o s ' ;   } } 
+                         } ) ; 
+                 } ) ; 
+         < / s c r i p t > 
+ @ e n d p u s h  
+ 

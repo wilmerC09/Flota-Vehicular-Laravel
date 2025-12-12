@@ -24,22 +24,18 @@ class MarcaController extends Controller
 
     public function store(Request $request)
     {
-        $marca = Marca::create($request->All());
-        return redirect()->route('marcas.index')
-            ->with('successMsg', 'Marca creada exitosamente.');
-
-
-        /*
         try {
             $validated = $request->validate([
-                'nombre' => 'required|string|max:255',
+                'nombre' => 'required|string|max:255|unique:marcas,nombre',
                 'pais_origen' => 'required|string|max:255',
-                'estado' => 'required|boolean'
+                'estado' => 'required|boolean',
+                'registrado_por' => 'nullable|string|max:255'
+            ], [
+                'nombre.unique' => 'Esta marca ya existe en el sistema.',
+                'nombre.required' => 'El nombre de la marca es obligatorio.',
+                'pais_origen.required' => 'El país de origen es obligatorio.'
             ]);
 
-
-
-            // Crear la marca con los datos validados
             $marca = Marca::create($validated);
 
             return redirect()->route('marcas.index')
@@ -62,7 +58,6 @@ class MarcaController extends Controller
                 ->with('error', 'Error inesperado al crear la marca.')
                 ->withInput();
         }
-        */
     }
 
     public function show(string $id)
@@ -78,11 +73,36 @@ class MarcaController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $marca = Marca::findOrFail($id);
-        $marca->update($request->all());
+        try {
+            $marca = Marca::findOrFail($id);
 
-        return redirect()->route('marcas.index')
-            ->with('successMsg', 'Marca actualizada exitosamente.');
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:255|unique:marcas,nombre,' . $id,
+                'pais_origen' => 'required|string|max:255',
+                'estado' => 'required|boolean',
+                'registrado_por' => 'nullable|string|max:255'
+            ], [
+                'nombre.unique' => 'Esta marca ya existe en el sistema.',
+                'nombre.required' => 'El nombre de la marca es obligatorio.',
+                'pais_origen.required' => 'El país de origen es obligatorio.'
+            ]);
+
+            $marca->update($validated);
+
+            return redirect()->route('marcas.index')
+                ->with('successMsg', 'Marca actualizada exitosamente.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
+
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar la marca: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Error inesperado al actualizar la marca.')
+                ->withInput();
+        }
     }
 
     public function destroy($id)

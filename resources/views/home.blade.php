@@ -28,7 +28,7 @@
           <!-- Tarjetas de estadísticas principales - Diseño moderno -->
           <div class="row">
             <!-- Revenue Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
               <div class="card border-0 shadow-sm"
                 style="border-radius: 16px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                 <div class="card-body p-4">
@@ -38,7 +38,7 @@
                       <h2 class="text-white mb-0" style="font-size: 32px; font-weight: 700;">{{ $totalVehiculos ?? 20 }}
                       </h2>
                     </div>
-                    <div class="bg-white bg-opacity-25 p-3 rounded-circle">
+                    <div style="background: rgba(255, 255, 255, 0.25); padding: 12px; border-radius: 50%;">
                       <i class="fas fa-car text-white" style="font-size: 24px;"></i>
                     </div>
                   </div>
@@ -56,7 +56,7 @@
             </div>
 
             <!-- Conductores Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
               <div class="card border-0 shadow-sm" style="border-radius: 16px; background: white;">
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-between align-items-start mb-3">
@@ -85,7 +85,7 @@
             </div>
 
             <!-- Viajes Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
               <div class="card border-0 shadow-sm" style="border-radius: 16px; background: white;">
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-between align-items-start mb-3">
@@ -103,6 +103,33 @@
                       From 1-6 Dec, 2024
                     </span>
                     <a href="{{ route('viajes.index') }}" style="color: #10b981; font-size: 13px; text-decoration: none;">
+                      View Report <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empresas Card -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card border-0 shadow-sm" style="border-radius: 16px; background: white;">
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                      <p class="text-muted mb-1" style="font-size: 14px; font-weight: 500;">Total Empresas</p>
+                      <h2 class="mb-0" style="font-size: 32px; font-weight: 700; color: #2d3748;">{{ $totalEmpresas ?? 0 }}
+                      </h2>
+                    </div>
+                    <div style="background: #fef3c7; padding: 12px; border-radius: 12px;">
+                      <i class="fas fa-building" style="font-size: 24px; color: #f59e0b;"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted" style="font-size: 13px;">
+                      <i class="fas fa-check-circle text-success"></i>
+                      <span class="text-success">Activas</span>
+                    </span>
+                    <a href="{{ route('empresas.index') }}" style="color: #10b981; font-size: 13px; text-decoration: none;">
                       View Report <i class="fas fa-chevron-right ml-1"></i>
                     </a>
                   </div>

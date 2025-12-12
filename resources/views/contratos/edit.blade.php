@@ -3,26 +3,39 @@
 @section('title', 'Editar Contrato')
 
 @section('content')
-    <div class="content-wrapper pb-4">
-        <section class="content-header">
+    <div class="content-wrapper pb-4" style="background: #f8f9fa;">
+        <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h1 class="m-0"><i class="fas fa-file-contract mr-2"></i>Editar Contrato</h1>
-                    <a href="{{ route('contratos.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left mr-1"></i> Volver
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Editar Contrato</h1>
+                        <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                            <a href="{{ route('home') }}" style="color: #6b7280; text-decoration: none;">Home</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <a href="{{ route('contratos.index') }}"
+                                style="color: #6b7280; text-decoration: none;">Contratos</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <span>Editar</span>
+                        </nav>
+                    </div>
+                    <a href="{{ route('contratos.index') }}"
+                        style="background: #6b7280; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="content">
+        <section class="content" style="padding: 1.5rem 1rem;">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-info text-white">
-                                <h3 class="card-title mb-0">
-                                    <i class="fas fa-edit mr-2"></i>Editar Contrato #{{ $contrato->id }}
+                        <div class="card border-0 shadow-sm" style="border-radius: 16px;">
+                            <div class="card-header"
+                                style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 16px 16px 0 0;">
+                                <h3 class="mb-0" style="color: #2d3748; font-weight: 600; font-size: 18px;">
+                                    <i class="fas fa-file-contract mr-2" style="color: #10b981;"></i>Contrato
+                                    #{{ $contrato->id }}
                                 </h3>
                             </div>
 
@@ -120,13 +133,16 @@
                                     </div>
                                 </div>
 
-                                <div class="card-footer bg-light">
+                                <div class="card-footer"
+                                    style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 0 0 16px 16px;">
                                     <div class="d-flex justify-content-between">
-                                        <a href="{{ route('contratos.index') }}" class="btn btn-secondary">
-                                            <i class="fas fa-times mr-1"></i> Cancelar
+                                        <a href="{{ route('contratos.index') }}"
+                                            style="background: #6b7280; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; border: none;">
+                                            <i class="fas fa-times"></i> Cancelar
                                         </a>
-                                        <button type="submit" class="btn btn-info">
-                                            <i class="fas fa-save mr-1"></i> Actualizar Contrato
+                                        <button type="submit"
+                                            style="background: #10b981; color: white; padding: 10px 24px; border-radius: 8px; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer;">
+                                            <i class="fas fa-save"></i> Actualizar Contrato
                                         </button>
                                     </div>
                                 </div>

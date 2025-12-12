@@ -3,31 +3,35 @@
 @section('title','Editar Vehículo')
 
 @section('content')
-<div class="content-wrapper">
-    <section class="content-header">
+<div class="content-wrapper" style="background: #f8f9fa;">
+    <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><i class="fas fa-car"></i> Editar Vehículo</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Editar Vehículo</h1>
+                    <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                        <a href="{{ route('home') }}" style="color: #6b7280; text-decoration: none;">Home</a>
+                        <span style="margin: 0 8px;">/</span>
+                        <a href="{{ route('vehiculos.index') }}" style="color: #6b7280; text-decoration: none;">Vehículos</a>
+                        <span style="margin: 0 8px;">/</span>
+                        <span>Editar</span>
+                    </nav>
                 </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('vehiculos.index') }}">Vehículos</a></li>
-                        <li class="breadcrumb-item active">Editar</li>
-                    </ol>
-                </div>
+                <a href="{{ route('vehiculos.index') }}" style="background: #6b7280; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="content">
+    <section class="content" style="padding: 1.5rem 1rem;">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-md-12">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-info text-white">
-                            <h3 class="card-title mb-0">
-                                <i class="fas fa-edit"></i> Editar Vehículo - {{ $vehiculo->placa }}
+                    <div class="card border-0 shadow-sm" style="border-radius: 16px;">
+                        <div class="card-header" style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 16px 16px 0 0;">
+                            <h3 class="mb-0" style="color: #2d3748; font-weight: 600; font-size: 18px;">
+                                <i class="fas fa-car mr-2" style="color: #10b981;"></i>{{ $vehiculo->placa }}
                             </h3>
                         </div>
                         
@@ -283,18 +287,14 @@
                                 </div>
                             </div>
 
-                            <div class="card-footer bg-light">
-                                <div class="row">
-                                    <div class="col-md-6 mb-2 mb-md-0">
-                                        <button type="submit" class="btn btn-info btn-block">
-                                            <i class="fas fa-save"></i> Actualizar Vehículo
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ route('vehiculos.index') }}" class="btn btn-secondary btn-block">
-                                            <i class="fas fa-arrow-left"></i> Cancelar
-                                        </a>
-                                    </div>
+                            <div class="card-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 0 0 16px 16px;">
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('vehiculos.index') }}" style="background: #6b7280; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; border: none;">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </a>
+                                    <button type="submit" style="background: #10b981; color: white; padding: 10px 24px; border-radius: 8px; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer;">
+                                        <i class="fas fa-save"></i> Actualizar Vehículo
+                                    </button>
                                 </div>
                             </div>
                         </form>

@@ -46,7 +46,7 @@
                                     <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
                                             class="fas fa-building text-muted mr-1"></i>Nombre</th>
                                     <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
-                                            class="fas fa-id-card text-muted mr-1"></i>RUC</th>
+                                            class="fas fa-id-card text-muted mr-1"></i>NIT</th>
                                     <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
                                             class="fas fa-map-marker-alt text-muted mr-1"></i>Dirección</th>
                                     <th style="padding: 12px 16px; font-weight: 600; font-size: 13px; color: #6b7280;"><i
@@ -74,7 +74,7 @@
                                                 <div style="font-weight: 600; color: #1f2937;">{{ $empresa->nombre }}</div>
                                             </div>
                                         </td>
-                                        <td style="padding: 12px 16px; color: #4b5563;">{{ $empresa->ruc }}</td>
+                                        <td style="padding: 12px 16px; color: #4b5563;">{{ $empresa->nit }}</td>
                                         <td style="padding: 12px 16px; color: #4b5563;">{{ $empresa->direccion }}</td>
                                         <td style="padding: 12px 16px; color: #4b5563;">{{ $empresa->registrado_por }}</td>
                                         <td style="padding: 12px 16px; text-align: center;"><span class="status-badge"
@@ -83,13 +83,15 @@
                                                 style="background: {{ $empresa->estado ? '#d1fae5' : '#fee2e2' }}; color: {{ $empresa->estado ? '#047857' : '#dc2626' }}; padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;"
                                                 onclick="toggleStatus(this)">{{ $empresa->estado ? 'Activo' : 'Inactivo' }}</span>
                                         </td>
-                                        <td style="padding: 12px 16px; text-align: center;"><button
-                                                onclick="window.location='{{ route('empresas.edit', $empresa->id) }}'"
-                                                style="background: transparent; border: none; color: #6b7280; padding: 6px 8px;"><i
-                                                    class="fas fa-edit"></i></button><button
-                                                onclick="confirmDelete({{ $empresa->id }})"
-                                                style="background: transparent; border: none; color: #ef4444; padding: 6px 8px;"><i
-                                                    class="fas fa-trash"></i></button>
+                                        <td style="padding: 12px 16px; text-align: center;">
+                                            <button onclick="window.location='{{ route('empresas.edit', $empresa->id) }}'"
+                                                style="background: transparent; border: none; color: #6b7280; padding: 6px 8px; margin-right: 4px;">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button onclick="confirmDelete({{ $empresa->id }})"
+                                                style="background: transparent; border: none; color: #ef4444; padding: 6px 8px;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                             <form id="delete-form-{{ $empresa->id }}"
                                                 action="{{ route('empresas.destroy', $empresa->id) }}" method="POST"
                                                 style="display: none;">@csrf @method('DELETE')</form>

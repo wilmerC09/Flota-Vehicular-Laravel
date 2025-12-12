@@ -3,26 +3,39 @@
 @section('title', 'Editar Conductor')
 
 @section('content')
-    <div class="content-wrapper pb-4">
-        <section class="content-header">
+    <div class="content-wrapper pb-4" style="background: #f8f9fa;">
+        <section class="content-header" style="padding: 1.5rem 1rem; background: white; border-bottom: 1px solid #e5e7eb;">
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h1 class="m-0"><i class="fas fa-user-edit mr-2"></i>Editar Conductor</h1>
-                    <a href="{{ route('conductores.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left mr-1"></i> Volver
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Editar Conductor</h1>
+                        <nav style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                            <a href="{{ route('home') }}" style="color: #6b7280; text-decoration: none;">Home</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <a href="{{ route('conductores.index') }}"
+                                style="color: #6b7280; text-decoration: none;">Conductores</a>
+                            <span style="margin: 0 8px;">/</span>
+                            <span>Editar</span>
+                        </nav>
+                    </div>
+                    <a href="{{ route('conductores.index') }}"
+                        style="background: #6b7280; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="content">
+        <section class="content" style="padding: 1.5rem 1rem;">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-info text-white">
-                                <h3 class="card-title mb-0">
-                                    <i class="fas fa-edit mr-2"></i>Editar Conductor - {{ $conductor->nombre }} {{ $conductor->apellido }}
+                        <div class="card border-0 shadow-sm" style="border-radius: 16px;">
+                            <div class="card-header"
+                                style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 16px 16px 0 0;">
+                                <h3 class="mb-0" style="color: #2d3748; font-weight: 600; font-size: 18px;">
+                                    <i class="fas fa-user-edit mr-2" style="color: #10b981;"></i>{{ $conductor->nombre }}
+                                    {{ $conductor->apellido }}
                                 </h3>
                             </div>
 
@@ -55,8 +68,8 @@
                                                     Nombre <strong style="color:red;">(*)</strong>
                                                 </label>
                                                 <input type="text"
-                                                    class="form-control @error('nombre') is-invalid @enderror"
-                                                    name="nombre" id="nombre" value="{{ old('nombre', $conductor->nombre) }}"
+                                                    class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                                    id="nombre" value="{{ old('nombre', $conductor->nombre) }}"
                                                     placeholder="Ej: Juan" required>
                                                 @error('nombre')
                                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +88,8 @@
                                                 </label>
                                                 <input type="text"
                                                     class="form-control @error('apellido') is-invalid @enderror"
-                                                    name="apellido" id="apellido" value="{{ old('apellido', $conductor->apellido) }}"
+                                                    name="apellido" id="apellido"
+                                                    value="{{ old('apellido', $conductor->apellido) }}"
                                                     placeholder="Ej: Pérez" required>
                                                 @error('apellido')
                                                     <span class="invalid-feedback" role="alert">
@@ -96,7 +110,8 @@
                                                 </label>
                                                 <input type="text"
                                                     class="form-control @error('documento') is-invalid @enderror"
-                                                    name="documento" id="documento" value="{{ old('documento', $conductor->documento) }}"
+                                                    name="documento" id="documento"
+                                                    value="{{ old('documento', $conductor->documento) }}"
                                                     placeholder="Número de documento" required>
                                                 @error('documento')
                                                     <span class="invalid-feedback" role="alert">
